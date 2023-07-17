@@ -25,8 +25,7 @@
     function generateFileFromString(text, fileType, fileName) {
     var blob = new Blob([text], { type: fileType });
   
-    //var dl_link = document.createElement('a');
-    var dl_link = C:/document.createElement('a');
+    var dl_link = document.createElement('a');
     dl_link.download = fileName;
     dl_link.href = URL.createObjectURL(blob);
     dl_link.dataset.downloadurl = [fileType, dl_link.download, dl_link.href].join(':');
