@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Comanda Online Europrod S.A.</title>
-  <script src="https://thunkable.github.io/webviewer-extension/thunkableWebviewerExtension.js" type="csv/javascript"></script>
+  <script src="https://thunkable.github.io/webviewer-extension/thunkableWebviewerExtension.js" type="text/javascript"></script>
 </head>
 <body>
  
@@ -22,8 +22,8 @@
          
          
          
-    function generateFileFromString(csv, fileType, fileName) {
-    var blob = new Blob([csv], { type: fileType });
+    function generateFileFromString(text, fileType, fileName) {
+    var blob = new Blob([text], { type: fileType });
   
     var dl_link = document.createElement('a');
     dl_link.download = fileName;
