@@ -1,55 +1,87 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Programming Task</title>
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  
-    <body>
-		<div class="container ">	        
-			<header class="row">
-				<div class="col-xs-12">	
-					<h1>Programming Task</h1>	
-                </div>
-            </header>  
-             	
-			<section class="row">
-				<div class="col-xs-12">						
-					<h2 id="introHeader">Upload your CSV File</h2>
-					
-					<fieldset>
-						<input type="file" name="File Upload" id="txtFileUpload" accept=".csv" />
-					</fieldset>
+    
+</head>
+<body>  
+<input id="upload" type="file">
 
-					<ul id="errorOutPut"  class="outPut hidden">						
-						<li>Sorry there has been an error.</li>
-					</ul>
-					
-					<ul id="statOutPut" class="outPut">
-						<li>Total number of integers: <span data-bind="text: countOfIntegers">null</span></li>	
-						<li>Mean value of all integers (to three decimal places): <span data-bind="text: meanOfIntegers">null</span></li>	
-						<li>Highest number of integers in a single line: <span data-bind="text: highestLength">null</span></li>			
-						<li>Most common integer: <span data-bind="text: commonInteger">null</span></li>				
-					</ul>
-				</div>
-			</section>
-                
-            <footer class="row">
-                <div class="col-xs-12">	
-                	<p>By Darren Ivey</p>
-                </div>
-            </footer>
-		</div>		
-		
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+<form id="csvForm">
+    <input id="a"></input>
+    <input id="b"></input>
+    <input id="c"></input>
+    <input id="d"></input>
+</form>
+<button id="download">Download</button>
+<script src="https://d3js.org/d3.v3.js"></script>
+<script type="text/javascript">
+    
 
-	
-    </body>
+   document.getElementById("upload").addEventListener("change", upload, false);
+   document.getElementById("download").addEventListener("click", download, false);
+   var out = "";
+   function upload(e) {
+    document.getElementById('csvForm').innerHTML = "";
+
+       var data = null;
+       var file = e.target.files[0];
+
+       var reader = new FileReader();
+       reader.readAsText(file);
+       reader.onload = function (event) {
+           var csvData = event.target.result;
+
+           var parsedCSV = d3.csv.parseRows(csvData);
+
+           parsedCSV.forEach(function (d, i) {
+               if (i == 0) return true; // skip the header
+               if(d.constructor === Array){
+                    // console.log(d);
+                    // document.getElementById(d[0]).value = d[1];
+                    createForm(d);
+                  }
+           });
+
+       }
+   }
+
+   function createForm(csv){
+    // console.log(out);
+
+    for (var i in csv) {
+       out+='<input value="' +csv[i]+ '">';
+    }
+    document.getElementById('csvForm').innerHTML = out;
+    out+='<br>';
+   }
+
+   function download(e) {
+
+       data = [["id","value"]];
+
+       var f = d3.selectAll("#csvForm > input")[0];
+
+       f.forEach(function(d,i){
+           data.push([d.id, d.value]);
+       });
+
+       console.log(data);
+
+       var csvContent = "data:text/csv;charset=utf-8,";
+       data.forEach(function (d, i) {
+           dataString = d.join(",");
+           csvContent += i < data.length ? dataString + "\n" : dataString;
+       });
+
+       var encodedUri = encodeURI(csvContent);
+       var link = document.createElement("a");
+       link.setAttribute("href", encodedUri);
+       link.setAttribute("download", "FormData.csv");
+       link.click(); 
+   }
+
+
+
+</script>
+</body>
+</html>
