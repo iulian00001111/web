@@ -11,7 +11,7 @@
  
   
   <script>
-
+ <a href="C:\wordpress/fileName.csv" download>Download CSV</a>
 
         //Use this if you want to pass in 'content-data', 'file-type', 'file-name' as part of the URL string (yourdomain.com?PDFStream=CODESTRINGHERE)
           const queryString = window.location.search;
@@ -33,7 +33,6 @@
     document.body.appendChild(dl_link);
     dl_link.click();
     document.body.removeChild(dl_link);
-    <a href="C:\wordpress/fileName.csv" download>Download CSV</a>
     setTimeout(function() { URL.revokeObjectURL(dl_link.href); }, 1500);
   }
   
